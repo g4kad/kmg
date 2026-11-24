@@ -42,3 +42,6 @@
 /* "brand to screen" in Instrument Serif italic (owner's request), white like the rest;
    a serif italic reads smaller, so it is set a touch larger and tighter */
 #intro h1 em { font-family: "Instrument Serif", Georgia, "Times New Roman", serif; font-style: italic; font-weight: 400; font-size: 1.14em; letter-spacing: -.01em; line-height: .9; color: inherit; }
+
+/* the bio in a lighter weight (owner's request) */
+#intro .bio { font-weight: 300; }
