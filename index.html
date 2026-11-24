@@ -1,0 +1,189 @@
+<!doctype html><html lang="en"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Red+Hat+Display:wght@500;700;800&family=Lusitana:wght@400;700&family=Raleway:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap">
+<!-- One page, one scroll: each project is a story in its own block. Its
+     styles are scoped to that block's id and its script only touches the
+     elements inside it, so stories can be added, removed or reordered. -->
+<link rel="stylesheet" href="shared/chrome.css">
+<link rel="stylesheet" href="projects/kedaipal/story.css">
+<link rel="stylesheet" href="projects/aislelys/story.css">
+<link rel="stylesheet" href="projects/sgcards/story.css">
+<link rel="stylesheet" href="projects/deqly/story.css">
+<link rel="stylesheet" href="projects/logos/story.css">
+<link rel="stylesheet" href="projects/intro/story.css">
+<link rel="stylesheet" href="shared/aura.css">
+</head><body>
+<!-- the flowing brand-coloured background (shared/aura.css + aura.js) -->
+<div id="aura" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div id="grid" aria-hidden="true"></div>
+
+<!-- ============ Introduction (owner's request: the first page) ============ -->
+<section id="intro" aria-labelledby="intro-title">
+  <div class="inner">
+    <img class="logo rise" style="--d:0" src="shared/kmg-logo.png" alt="KMG">
+    <span class="eyebrow rise" style="--d:1">UI/UX Designer · Portfolio</span>
+    <h1 id="intro-title" class="rise" style="--d:2">Products, designed from brand to screen</h1>
+    <p class="bio rise" style="--d:3">I'm a UI/UX designer who shapes brands and the products that carry them: storefronts, wedding planners, store locators and card decks, made for the web and the phone. Scroll to watch four of them build themselves, piece by piece.</p>
+    <ul class="projects rise" style="--d:4" aria-label="Projects">
+      <li><button type="button" data-go="kedaipal"><img src="shared/favicons/kedaipal.svg" alt="">Kedaipal</button></li>
+      <li><button type="button" data-go="aislelys"><img src="shared/favicons/aislelys.png" alt="">Aislelys</button></li>
+      <li><button type="button" data-go="sgcards"><img src="shared/favicons/sgcards.png" alt="">SG Cards</button></li>
+      <li><button type="button" data-go="deqly"><img src="shared/favicons/deqly.png?v=2" alt="">Deqly</button></li>
+      <li><button type="button" data-go="logos"><img src="shared/kmg-logo.png" alt="">Logo design</button></li>
+    </ul>
+  </div>
+  <div class="hint rise" style="--d:5"><i></i>Scroll</div>
+</section>
+
+<!-- ============ Kedaipal ============ -->
+<div id="kedaipal">
+<section class="track" id="track" aria-label="The seller's Kedaipal home building itself as you scroll">
+  <div class="pin">
+    <div class="hero" id="hero">
+      <span class="eyebrow">Case study · Kedaipal</span>
+      <h1>Every order, in one place</h1>
+      <p>The seller's home screen, built piece by piece.</p>
+    </div>
+    <div class="hint" id="hint"><i></i>Scroll</div>
+    <div class="scaler" id="scaler"><div class="stage" id="stage"></div></div>
+  </div>
+</section>
+
+<section class="after" id="after">
+  <div class="inner">
+    <span class="eyebrow">Kedaipal: Website design / UIUX</span>
+    <h2>Mobile-first storefront web application</h2>
+    <div class="cols">
+      <div><span class="k">Application</span><h3>Selling from the chat</h3><p>Kedaipal gives small sellers a storefront that lives where their buyers already are. Buyers check out from a link shared on Instagram, Threads or WhatsApp, and every order, payment and delivery lands on one screen the seller can run from their phone.</p></div>
+      <div><span class="k">Creative contribution</span><h3>Brand to product, end to end</h3><p>I led Kedaipal's overall branding, shaping the design language and tone across both the landing page and the seller's web app. It set the experience end to end, from a visitor's first look at the landing page to the seller's screens.</p></div>
+      <div><span class="k">Approach</span><h3>Designed for the phone first</h3><p>Many Malaysian SMEs sell their products and close their sales from their phones. So Kedaipal was designed mobile first, for ease of use: creating and editing a storefront happens right in the seller's pocket.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ Aislelys ============ -->
+<div id="aislelys">
+<section class="track" id="ais-track" aria-label="The Aislelys wedding planner assembling itself as you scroll">
+  <div class="pin">
+    <div class="hero" id="ais-hero">
+      <span class="eyebrow">Case study · Aislelys</span>
+      <h1>Plan the big day <em>together</em></h1>
+      <p>A wedding planner for two, built piece by piece.</p>
+    </div>
+    <div class="hint" id="ais-hint"><i></i>Scroll</div>
+    <div class="scaler" id="ais-scaler"><div class="stage" id="ais-stage"></div></div>
+  </div>
+</section>
+
+<section class="after" id="ais-after">
+  <div class="inner">
+    <span class="eyebrow">Aislelys: Web application design / UIUX</span>
+    <h2>Wedding planner web application for two</h2>
+    <div class="cols">
+      <div><span class="k">Application</span><h3>Planning the big day together</h3><p>Aislelys keeps a couple's wedding planning in one shared place: an overview with the countdown, a planner where every task has an owner, the guest list, the budget, vendors and inspiration, all seen by both partners.</p></div>
+      <div><span class="k">Creative contribution</span><h3>Creator &amp; Designer</h3><p>I created Aislelys, an app first conceptualised to help my friends who were getting married plan their big day together. I designed the whole branding and the whole planner through to the landing page.</p></div>
+      <div><span class="k">Approach</span><h3>Designed for two</h3><p>Planning a wedding is shared work, so I approached it with my experience of designing project management applications, then gave the concept a softer, warmer touch.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ SG Cards ============ -->
+<div id="sgcards">
+<section class="track" id="sg-track" aria-label="The SG Cards store locator: store cards fly in, then a store's details open">
+  <div class="pin">
+    <div class="hero" id="sg-hero">
+      <span class="eyebrow">Case study · SG Cards</span>
+      <h1>Every card shop in Singapore</h1>
+      <p>The store locator, card by card.</p>
+    </div>
+    <div class="hint" id="sg-hint"><i></i>Scroll</div>
+    <div class="scaler" id="sg-scaler"><div class="stage" id="sg-stage"></div></div>
+  </div>
+</section>
+
+<section class="after" id="sg-after">
+  <div class="inner">
+    <span class="eyebrow">SG Cards: Website design / UIUX</span>
+    <h2>Trading card store locator for Singapore</h2>
+    <div class="cols">
+      <div><span class="k">Application</span><h3>Every card shop in one place</h3><p>SG Cards helps Singapore's trading card community find the shops they love. Players browse stores by region, see their opening hours and get directions, and keep up with TCG news, articles and events.</p></div>
+      <div><span class="k">Creative contribution</span><h3>Brand to product, end to end</h3><p>A passion project I created for Singapore's growing TCG community. To make it easy to use, I made sure the experience is fully optimised for both web and mobile.</p></div>
+      <div><span class="k">Approach</span><h3>Cards first</h3><p>Collectors think in cards, so the site does too. Each shop is a card that can be tapped open for its details and turned over for everything else: the games it carries, what it buys and sells, and its amenities.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ Deqly ============ -->
+<div id="deqly">
+<section class="track" id="dq-track" aria-label="The Deqly landing page: its hero card stack flies in and fans out">
+  <div class="pin">
+    <div class="hero" id="dq-hero">
+      <span class="eyebrow">Case study · Deqly</span>
+      <h1>Leave an impact, <em>not just a contact</em></h1>
+      <p>One card was never enough.</p>
+    </div>
+    <div class="hint" id="dq-hint"><i></i>Scroll</div>
+    <div class="scaler" id="dq-scaler"><div class="stage" id="dq-stage"></div></div>
+  </div>
+</section>
+
+<section class="after" id="dq-after">
+  <div class="inner">
+    <span class="eyebrow">Deqly: Website design / UIUX</span>
+    <h2>A deck of cards in place of a single contact card</h2>
+    <div class="cols">
+      <div><span class="k">Application</span><h3>More than one card</h3><p>Deqly lets people share a deck of cards instead of a single contact card: their story, their work and their personality, all in one link that is easy to share at a networking event.</p></div>
+      <div><span class="k">Creative contribution</span><h3>Brand to product, end to end</h3><p>I designed Deqly end to end, from its branding to the application experience. It meant rethinking how people exchange business cards: a new design, a fresh point of view and a new way to interact with the cards themselves.</p></div>
+      <div><span class="k">Approach</span><h3>Made to be interacted with</h3><p>Having designed thousands of name cards, I wanted to create a new experience: one where companies and individuals can show more sides of themselves in a deck of cards, not just the two sides of a standard card.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ Logo design (from logo-designs.ai, one logo per layer) ============ -->
+<section id="logos" aria-labelledby="logos-title">
+  <div class="inner">
+    <span class="eyebrow">Logo design</span>
+    <h2 id="logos-title">Marks made for brands</h2>
+    <p class="lead">A collection of logos, including the marks behind the products above.</p>
+    <ul class="grid">
+      <li class="tile"><img src="projects/logos/img/logo-01.png?v=2" alt="Logo design 1" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-02.png?v=2" alt="Logo design 2" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-03.png?v=2" alt="Logo design 3" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-04.png?v=2" alt="Logo design 4" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-05.png?v=2" alt="Logo design 5" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-06.png?v=2" alt="Logo design 6" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-07.png?v=2" alt="Logo design 7" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-08.png?v=2" alt="Logo design 8" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-09.png?v=2" alt="Logo design 9" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-10.png?v=2" alt="Logo design 10" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-11.png?v=2" alt="Logo design 11" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-12.png?v=2" alt="Logo design 12" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-13.png?v=2" alt="Logo design 13" loading="lazy" decoding="async"></li>
+      <li class="tile"><img src="projects/logos/img/logo-14.png?v=2" alt="Logo design 14" loading="lazy" decoding="async"></li>
+    </ul>
+  </div>
+</section>
+
+<script src="shared/chrome.js"></script>
+<script src="shared/live.js"></script>
+<script src="shared/pace.js"></script>
+<script src="shared/aura.js"></script>
+<script src="shared/grid.js"></script>
+<script src="shared/gridfx.js"></script>
+<script src="shared/nav.js"></script>
+<script src="shared/fade.js"></script>
+<script src="projects/kedaipal/story.js"></script>
+<script src="projects/aislelys/story.js"></script>
+<script src="projects/sgcards/layout.js"></script>
+<script src="projects/sgcards/story.js"></script>
+<script src="projects/deqly/layout.js"></script>
+<script src="projects/deqly/story.js"></script>
+<script src="projects/logos/story.js"></script>
+<script src="projects/intro/story.js"></script>
+</body></html>

@@ -1,0 +1,126 @@
+/* A Google Chrome window bar (macOS, Chrome's 2023 look) shared by every
+   project's desktop browser: tab strip with the window buttons, one tab per
+   project (each with its logo, the shown project's tab active), then the
+   toolbar with back / forward / reload, the address bar and the profile icons.
+   84 px tall: strip 42 + toolbar 42. `.chrome.dark` is Chrome's dark theme. */
+.chrome {
+  --c-frame: #DFE3EA; --c-tab: #FFFFFF; --c-omni: #EBEFF5;
+  --c-text: #1F1F1F; --c-dim: #474747; --c-icon: #474747; --c-off: #B4B8BE; --c-sep: #A9AFB7;
+  position: absolute; left: 0; top: 0; right: 0; height: 84px;
+  font: 400 12px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--c-text);
+  -webkit-font-smoothing: antialiased;
+}
+.chrome.dark {
+  --c-frame: #1F1F1F; --c-tab: #3C3C3C; --c-omni: #282828;
+  --c-text: #E3E3E3; --c-dim: #C7C7C7; --c-icon: #C7C7C7; --c-off: #6F6F6F; --c-sep: #5F6368;
+}
+.chrome * { box-sizing: border-box; }
+.chrome svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* tab strip */
+.chrome-strip { position: absolute; left: 0; right: 0; top: 0; height: 42px; background: var(--c-frame); display: flex; align-items: flex-end; padding: 0 10px 0 0; }
+.chrome-lights { display: flex; gap: 8px; padding: 0 18px 0 14px; align-self: center; margin-top: 2px; }
+.chrome-lights i { width: 12px; height: 12px; border-radius: 50%; background: #FF5F57; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.12); }
+.chrome-lights i:nth-child(2) { background: #FEBC2E; }
+.chrome-lights i:nth-child(3) { background: #28C840; }
+.chrome-tabs { display: flex; align-items: flex-end; height: 34px; min-width: 0; }
+.chrome-tab { position: relative; width: 232px; height: 34px; display: flex; align-items: center; gap: 8px; padding: 0 10px 2px 12px; color: var(--c-dim); }
+.chrome-tab img { width: 16px; height: 16px; object-fit: contain; flex: none; }
+.chrome-tab span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent); mask-image: linear-gradient(90deg, #000 82%, transparent); }
+.chrome-tab svg { width: 14px; height: 14px; stroke-width: 1.6; opacity: .85; }
+/* the thin divider between inactive tabs */
+.chrome-tab:not(.on) + .chrome-tab:not(.on)::before { content: ""; position: absolute; left: 0; top: 9px; height: 18px; width: 1px; background: var(--c-sep); opacity: .7; }
+/* the active tab joins the toolbar, with Chrome's curved feet */
+.chrome-tab.on { background: var(--c-tab); color: var(--c-text); border-radius: 10px 10px 0 0; }
+.chrome-tab.on::before, .chrome-tab.on::after { content: ""; position: absolute; bottom: 0; width: 10px; height: 10px; }
+.chrome-tab.on::before { left: -10px; background: radial-gradient(circle at 0 0, transparent 10px, var(--c-tab) 10.5px); }
+.chrome-tab.on::after { right: -10px; background: radial-gradient(circle at 100% 0, transparent 10px, var(--c-tab) 10.5px); }
+.chrome-new { width: 28px; height: 28px; margin: 0 0 3px 6px; border-radius: 50%; display: grid; place-items: center; color: var(--c-icon); align-self: flex-end; }
+.chrome-search { margin-left: auto; align-self: center; width: 28px; height: 28px; display: grid; place-items: center; color: var(--c-icon); }
+
+/* toolbar */
+.chrome-bar { position: absolute; left: 0; right: 0; top: 42px; height: 42px; background: var(--c-tab); display: flex; align-items: center; gap: 4px; padding: 0 10px; border-bottom: 1px solid rgba(0,0,0,.06); }
+.chrome.dark .chrome-bar { border-bottom-color: rgba(255,255,255,.04); }
+.chrome-btn { width: 30px; height: 30px; display: grid; place-items: center; color: var(--c-icon); flex: none; }
+.chrome-btn.off { color: var(--c-off); }
+.chrome-omni { flex: 1; min-width: 0; height: 32px; margin: 0 6px; border-radius: 16px; background: var(--c-omni); display: flex; align-items: center; gap: 10px; padding: 0 12px 0 14px; font-size: 14px; color: var(--c-text); white-space: nowrap; }
+.chrome-omni .site { color: var(--c-icon); }
+.chrome-omni b { font-weight: 400; }
+.chrome-omni em { font-style: normal; color: var(--c-dim); opacity: .8; }
+.chrome-omni .star { margin-left: auto; color: var(--c-icon); }
+.chrome-avatar { width: 24px; height: 24px; margin: 0 4px; border-radius: 50%; background: #C2C7CF; color: #fff; display: grid; place-items: end center; overflow: hidden; flex: none; }
+.chrome-avatar svg { width: 20px; height: 20px; }
+
+/* a dark Chrome window has a dark outline */
+.browser:has(> .chrome.dark) { border-color: #1F1F1F !important; } /* outline only: the pages keep their own backgrounds */
+
+/* "Visit live site" link under each project's window (shared/live.js) */
+.live { position: absolute; left: 50%; top: 0; transform: translateX(-50%) scale(1.15); transform-origin: 50% 0; z-index: 45; /* 15% bigger (owner's request) */ display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px 5px 6px; border-radius: 999px; background: rgba(255,255,255,.72); border: 1px solid rgba(0,0,0,.08); box-shadow: 0 4px 14px rgba(0,0,0,.06); color: #3A3A3A; text-decoration: none; font: 600 9px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: .02em; white-space: nowrap; will-change: opacity; }
+.live img { width: 16px; height: 16px; object-fit: contain; border-radius: 4px; flex: none; }
+.live:hover { background: #fff; color: #000; }
+.live:focus-visible { outline: 2px solid #3A3A3A; outline-offset: 2px; }
+
+/* the phone frame over the flying / popping layers on the phone (chrome.js addBezel) */
+.bezel { position: absolute; z-index: 80; pointer-events: none; opacity: 0; transition: opacity .2s ease; background: url(phone-frame.png?v=2) 0 0 / 100% 100% no-repeat; }
+
+/* Project indicator on the right edge (shared/nav.js) */
+.pnav { position: fixed; right: max(14px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); z-index: 90; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+/* a dark backing behind the marks so they read over light pages too */
+.pnav::before { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 22px; border-radius: 11px; background: rgba(14,14,16,.55); border: 1px solid rgba(255,255,255,.08); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); z-index: -1; }
+.pnav button { appearance: none; border: 0; background: none; padding: 6px 7px; margin: 0; cursor: pointer; display: flex; align-items: center; justify-content: flex-end; gap: 10px; color: #F4F4F5; font: 600 11px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: .04em; -webkit-tap-highlight-color: transparent; }
+.pnav-mark { position: relative; width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.32); overflow: hidden; transition: height .35s cubic-bezier(.2,.8,.2,1), background-color .25s ease; }
+.pnav-mark i { position: absolute; left: 0; right: 0; top: 0; height: calc(var(--p, 0) * 100%); background: var(--c); border-radius: 3px; }
+.pnav button.on .pnav-mark { height: 34px; background: rgba(255,255,255,.18); }
+.pnav button:hover .pnav-mark { background: rgba(255,255,255,.55); }
+.pnav button.on:hover .pnav-mark { background: rgba(255,255,255,.26); }
+/* the name shows on hover / keyboard focus (and for the project in view, faintly) */
+.pnav-name { opacity: 0; transform: translateX(6px); transition: opacity .2s ease, transform .2s ease; white-space: nowrap; padding: 5px 8px; border-radius: 999px; background: rgba(20,20,22,.7); border: 1px solid rgba(255,255,255,.1); }
+.pnav button:hover .pnav-name, .pnav button:focus-visible .pnav-name { opacity: 1; transform: none; }
+.pnav button:focus-visible { outline: none; }
+.pnav button:focus-visible .pnav-mark { box-shadow: 0 0 0 2px #F4F4F5; }
+@media (hover: none) { .pnav-name { display: none; } .pnav button { padding: 8px 7px; } }
+@media (max-width: 699px) { .pnav { right: max(6px, env(safe-area-inset-right, 0px)); } .pnav button.on .pnav-mark { height: 26px; } }
+@media (prefers-reduced-motion: reduce) { .pnav-mark, .pnav-name { transition: none; } }
+
+@media (prefers-reduced-motion: reduce) { .bezel { transition: none; } }
+
+/* the project's secondary logo (wordmark) above its window (shared/live.js) */
+.wordmark { position: absolute; left: 50%; top: 0; transform: translateX(-50%); z-index: 45; width: auto; display: block; pointer-events: none; will-change: opacity; }
+/* phone: the wordmark under the introduction's last line, fading with the title */
+.wordmark.in-hero { position: static; transform: none; height: 26px; margin: 22px auto 0; opacity: 1; }
+/* phone: plain "Visit live site" link 20 px above the scroll hint (shared/live.js) */
+.live-intro { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: auto; color: #E4E4E7; font: 600 12px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: .04em; text-decoration: none; padding: 6px 8px; white-space: nowrap; }
+.live-intro:hover, .live-intro:focus-visible { text-decoration: underline; text-underline-offset: 3px; outline: none; }
+
+/* the owner's KMG logo, fixed at the top left of the page */
+.kmg { position: fixed; z-index: 95; top: max(22px, calc(env(safe-area-inset-top, 0px) + 14px)); left: max(24px, calc(env(safe-area-inset-left, 0px) + 16px)); display: block; line-height: 0; opacity: .92; transition: opacity .2s ease; }
+.kmg img { width: 44px; height: auto; display: block; }
+.kmg:hover { opacity: 1; }
+.kmg:focus-visible { outline: 2px solid #F4F4F5; outline-offset: 4px; border-radius: 4px; }
+@media (max-width: 699px) { .kmg { top: max(16px, calc(env(safe-area-inset-top, 0px) + 10px)); left: max(16px, calc(env(safe-area-inset-left, 0px) + 12px)); } .kmg img { width: 34px; } }
+
+/* touch: slide a finger along the indicator to move between projects (nav.js);
+   a wider invisible hit area, and the held project's name shows while dragging */
+.pnav { touch-action: none; -webkit-user-select: none; user-select: none; }
+@media (hover: none) {
+  .pnav::after { content: ""; position: absolute; top: -14px; bottom: -14px; right: -6px; left: -16px; }
+  .pnav button { position: relative; }
+  .pnav.drag button.on .pnav-name { display: block; position: absolute; right: calc(100% + 8px); top: 50%; opacity: 1; transform: translateY(-50%); }
+  .pnav.drag::before { background: rgba(14,14,16,.8); border-color: rgba(255,255,255,.18); }
+}
+
+/* "Navigation" written up the screen beside the indicator (left of it), its N at the bottom, slowly flashing (owner's request; nav.js) */
+.pnav-label { position: absolute; right: calc(22px + 8px); top: 50%; transform: translateY(-50%); display: flex; align-items: center; pointer-events: none; } /* to the left of the bar, centred on it (owner's request) */
+.pnav-label span { writing-mode: vertical-rl; transform: rotate(180deg); font: 600 10px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: .18em; text-transform: uppercase; color: #F4F4F5; white-space: nowrap; animation: pnav-flash 3.2s ease-in-out infinite; }
+@keyframes pnav-flash { 0%, 100% { opacity: .2; } 50% { opacity: .85; } }
+@media (max-width: 699px) { .pnav-label span { font-size: 9px; } }
+@media (prefers-reduced-motion: reduce) { .pnav-label span { animation: none; opacity: .6; } }
+.pnav-label { transition: opacity .4s ease; }
+.pnav-label.gone { opacity: 0; } /* hidden once the visitor reaches the projects (nav.js) */
+
+/* phone: the link under the phone is plain text like .live-intro, and shows only
+   after the presentation, as the write-up scrolls in (live.js sets --end) */
+.live.plain { background: none; border: 0; box-shadow: none; padding: 6px 8px; transform: translateX(-50%); color: #E4E4E7; font: 600 12px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: .04em; opacity: var(--end, 0) !important; }
+.live.plain img { display: none; }
+.live.plain span::after { content: " ↗"; }
+.live.plain:hover, .live.plain:focus-visible { background: none; color: #E4E4E7; text-decoration: underline; text-underline-offset: 3px; outline: none; }

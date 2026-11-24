@@ -1,0 +1,40 @@
+/* Introduction page at the very top (owner's request): the owner's KMG logo, a
+   big headline, a short bio and the list of projects, on the dark page with the
+   grid and the flowing gradient. Scoped to #intro. */
+#intro {
+  --ink: #F4F4F5; --muted: #A1A1AA; --body: #E4E4E7;
+  --ui: "Geist", "Inter", "Segoe UI", system-ui, sans-serif;
+  --display: "Red Hat Display", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  position: relative; min-height: 100vh; min-height: 100svh; display: grid; place-items: center;
+  color: var(--ink); font-family: var(--ui); text-align: center;
+  padding: 120px max(20px, env(safe-area-inset-right, 0px)) 120px max(20px, env(safe-area-inset-left, 0px)); /* equal top / bottom: content truly centred */
+  box-sizing: border-box;
+}
+#intro * { box-sizing: border-box; }
+#intro .inner { max-width: 880px; display: flex; flex-direction: column; align-items: center; }
+#intro .logo { width: 76px; height: auto; display: block; opacity: .95; margin-bottom: 30px; }
+#intro .eyebrow { font: 600 12px/1 var(--ui); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+#intro h1 { font: 800 clamp(32px, 5vw, 64px)/1.04 var(--display); /* smaller (owner's request; was 40–92 px) */ letter-spacing: -.025em; margin: 18px 0 22px; text-wrap: balance; max-width: 15ch; }
+#intro .bio { margin: 0; max-width: 54ch; font-size: 17px; line-height: 1.65; color: var(--body); text-wrap: pretty; }
+#intro .projects { list-style: none; margin: 34px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+#intro .projects button { appearance: none; cursor: pointer; display: inline-flex; align-items: center; gap: 9px; padding: 8px 15px 8px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.04); color: var(--ink); font: 500 14px/1 var(--ui); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: background-color .2s ease, border-color .2s ease; -webkit-tap-highlight-color: transparent; }
+#intro .projects button:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.28); }
+#intro .projects button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+#intro .projects img { width: 18px; height: 18px; object-fit: contain; display: block; border-radius: 4px; } /* each project's logo (owner's request) */
+#intro .hint { position: absolute; left: 0; right: 0; margin: 0 auto; width: max-content; bottom: max(28px, env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; align-items: center; gap: 8px; font: 500 12px var(--ui); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+#intro .hint i { width: 22px; height: 34px; border: 1.5px solid rgba(255,255,255,.25); border-radius: 12px; position: relative; }
+#intro .hint i::after { content: ""; position: absolute; left: 50%; top: 7px; width: 4px; height: 7px; margin-left: -2px; border-radius: 2px; background: #F4F4F5; animation: in-wheel 1.6s ease-in-out infinite; }
+@keyframes in-wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(10px); opacity: 0; } 100% { transform: translateY(0); opacity: 0; } }
+/* rises in once on load, piece by piece */
+#intro .rise { animation: in-rise .9s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--d, 0) * 110ms + 150ms); }
+@keyframes in-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@media (max-width: 699px) {
+  #intro { padding-top: 110px; padding-bottom: 110px; padding-left: max(56px, env(safe-area-inset-left, 0px)); padding-right: max(56px, env(safe-area-inset-right, 0px)); }
+  #intro .logo { width: 56px; margin-bottom: 22px; }
+  #intro .eyebrow { font-size: 10px; }
+  #intro h1 { margin: 14px 0 16px; }
+  #intro .bio { font-size: 15px; }
+  #intro .projects { margin-top: 26px; gap: 8px; }
+  #intro .projects button { font-size: 13px; padding: 7px 13px 7px 9px; }
+}
+@media (prefers-reduced-motion: reduce) { #intro .rise { animation: none; } #intro .hint i::after { animation: none; } }

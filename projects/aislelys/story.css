@@ -1,0 +1,188 @@
+
+/* Aislelys scroll story. Three windows, one after another:
+   1. Overview builds itself: header and countdown fade in, "Newly added",
+      "Coming up" and the four budget cells fly in.
+   2. Budget page: the numbers count up, then every expense opens.
+   3. Landing page scrolls to "Every task has an owner" and the sub-tasks
+      are struck off one by one.
+   Styles are read from the running app (Lusitana / Raleway, cream, sage, gold).
+   All names, dates and amounts are invented sample data. */
+#aislelys {
+  --bg: #FCFBFA;
+  --ink: #2B1C01;
+  --muted: #93816C;
+  --gold-ink: #937450;
+  --gold: #B99767;
+  --cream: #FDF9EF;
+  --cream-text: #FFFEE8;
+  --line: #EDE2CC;
+  --sage: #7A7B5B;
+  --sage-btn: #AAAB89;
+  --green: #479352;
+  --serif: "Lusitana", Georgia, serif;
+  --ui: "Raleway", system-ui, sans-serif;
+  color-scheme: light;
+}
+#aislelys * { box-sizing: border-box; }
+#aislelys { margin: 0; }
+#aislelys { background: var(--bg); color: var(--ink); font: 16px/1.5 var(--ui); }
+#aislelys svg.i { width: 15px; height: 15px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+#aislelys .track { position: relative; height: 1200vh; }
+#aislelys .pin { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
+#aislelys .scaler { position: absolute; left: 50%; top: 50%; transform-origin: 0 0; }
+#aislelys .stage { position: absolute; left: 0; top: 0; }
+#aislelys .win { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+#aislelys .pc { position: absolute; will-change: transform, opacity; }
+#aislelys .at { position: absolute; }
+
+#aislelys .hero { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); pointer-events: none; z-index: 40; }
+#aislelys .eyebrow { font: 600 12px/1 var(--ui); letter-spacing: .14em; text-transform: uppercase; color: var(--gold-ink); }
+#aislelys .hero h1 { font: 400 clamp(38px, 6.4vw, 84px)/1 var(--serif); letter-spacing: -.01em; margin: 16px auto 14px; text-wrap: balance; max-width: 12ch; }
+#aislelys .hero h1 em { font-style: normal; color: var(--gold-ink); }
+#aislelys .hero p { margin: 0; color: var(--muted); font-size: clamp(15px, 1.4vw, 18px); }
+#aislelys .hint { position: absolute; left: 50%; bottom: max(28px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; font: 500 12px var(--ui); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; z-index: 40; }
+#aislelys .hint i { width: 22px; height: 34px; border: 1.5px solid var(--line); border-radius: 12px; position: relative; }
+#aislelys .hint i::after { content: ""; position: absolute; left: 50%; top: 7px; width: 4px; height: 7px; margin-left: -2px; border-radius: 2px; background: var(--gold); animation: ais-wheel 1.6s ease-in-out infinite; }
+@keyframes ais-wheel { 0%{transform:translateY(0);opacity:1} 70%{transform:translateY(10px);opacity:0} 100%{opacity:0} }
+@media (prefers-reduced-motion: reduce) { #aislelys .hint i::after { animation: none; } }
+
+/* frames */
+#aislelys .browser { position: absolute; background: var(--bg); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 50px 90px -34px rgba(60,45,35,.30), 0 2px 6px rgba(60,45,35,.05); overflow: hidden; }
+#aislelys .browser .bar { height: 44px; display: flex; align-items: center; gap: 14px; padding: 0 16px; border-bottom: 1px solid var(--line); background: #FBF7EE; }
+#aislelys .dots { display: flex; gap: 7px; } #aislelys .dots i { width: 11px; height: 11px; border-radius: 50%; background: #E9DFCB; }
+#aislelys .url { flex: 0 1 380px; margin: 0 auto; height: 26px; border-radius: 8px; background: #fff; border: 1px solid var(--line); font: 500 12px/24px var(--ui); color: var(--muted); text-align: center; }
+#aislelys .phone { position: absolute; filter: drop-shadow(0 40px 46px rgba(0,0,0,.26)); }
+/* the owner's phone image (shared/phone-frame.png, 941 × 1780) drawn over the screen. It
+   has its own dark status bar; the see-through screen below it (703 × 1454 at 118, 246)
+   shows the app's 390 × 797 page area. The screen element starts 47 px higher so its
+   own status bar hides under the image's. */
+#aislelys .phone::after { content: ""; position: absolute; inset: 0; background: url(../../shared/phone-frame.png?v=2) 0 0 / 100% 100% no-repeat; z-index: 70; pointer-events: none; }
+#aislelys .phone .scr { position: absolute; left: 65.47px; top: 87.86px; width: 390px; height: 844px; background: var(--bg); border-radius: 0 0 58px 58px; overflow: hidden; }
+#aislelys .phone .sb { position: relative; z-index: 5; height: 47px; display: flex; justify-content: space-between; align-items: center; padding: 8px 34px 0; font: 600 15px var(--ui); background: var(--bg); }
+#aislelys .phone .sb i { display: flex; gap: 3px; align-items: flex-end; }
+#aislelys .phone .sb i b { width: 4px; border-radius: 1px; background: var(--ink); display: block; }
+#aislelys .phone .island { display: none; } /* the Dynamic Island is in the phone image */
+#aislelys .phone .sb { visibility: hidden; } /* so is the status bar */
+#aislelys .phone .homebar { position: absolute; bottom: 52px; left: 50%; width: 130px; height: 5px; margin-left: -65px; border-radius: 3px; background: var(--ink); z-index: 60; }
+/* the app's page: warm off-white with the gold wash rising from the bottom */
+#aislelys .content { position: absolute; overflow: hidden; background: linear-gradient(to top, rgba(185,151,103,.14), rgba(196,164,120,.06) 45%, rgba(196,164,120,0) 75%), var(--bg); }
+#aislelys .pgw { position: absolute; left: 0; top: 0; right: 0; will-change: transform; }
+#aislelys .group { position: absolute; inset: 0; }
+
+/* app header */
+#aislelys .hdr { position: absolute; left: 0; right: 0; top: 0; background: rgba(255,255,255,.55); border-bottom: 1px solid rgba(237,226,204,.7); }
+#aislelys .ttl { font: 700 27px/32px var(--serif); margin: 0; white-space: nowrap; }
+#aislelys .sub { font: 600 16.4px/24.6px var(--ui); color: var(--gold-ink); margin: 0; white-space: nowrap; }
+#aislelys .nav { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--cream); overflow: hidden; }
+#aislelys .nav span { display: flex; align-items: center; gap: 6px; padding: 8px 20px; border-radius: 999px; font: 500 15px/22.5px var(--ui); color: #93816C; white-space: nowrap; flex: none; }
+#aislelys .nav span.on { background: var(--gold); color: #fff; }
+#aislelys .m .nav span { padding: 8px 16px; font-size: 14.12px; line-height: 21.18px; }
+#aislelys .avatar { border-radius: 50%; background: var(--sage-btn); color: var(--cream-text); font: 600 14px/32px var(--ui); text-align: center; }
+
+/* overview hero (countdown + quote) */
+#aislelys .ohero { border-radius: 20px; background: var(--sage); box-shadow: 0 2px 10px rgba(60,45,35,.07); overflow: hidden; color: var(--cream-text); }
+#aislelys .ohero::before { content: ""; position: absolute; inset: 0; background: url(img/lily.png) no-repeat 100% 100% / 70% auto; opacity: .1; }
+#aislelys .days { font: 700 136px/136px var(--serif); text-align: center; }
+#aislelys .dlab { font: 600 12.8px/19.2px var(--ui); letter-spacing: .14em; text-transform: uppercase; color: rgba(255,254,232,.78); text-align: center; }
+#aislelys .rom { border: 1px solid rgba(255,254,232,.28); border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 10px; font: 400 14.4px/21.6px var(--ui); white-space: nowrap; }
+#aislelys .rom b { font: 700 11.52px var(--ui); letter-spacing: .14em; color: rgba(255,254,232,.78); }
+#aislelys .rom em { font: 400 16.8px/25.2px var(--serif); font-style: normal; }
+#aislelys .rom span { color: rgba(255,254,232,.78); }
+#aislelys .rom.m2 { border-radius: 16px; flex-wrap: wrap; row-gap: 2px; }
+#aislelys .rom.m2 span { flex-basis: 100%; text-align: center; }
+#aislelys .vline { background: rgba(255,254,232,.28); }
+#aislelys .quote { margin: 0; display: flex; flex-direction: column; justify-content: center; }
+#aislelys .quote blockquote { margin: 0; font: 400 25.6px/35.84px var(--serif); }
+#aislelys .quote figcaption { margin-top: 12px; font: 400 14.4px/21.6px var(--ui); color: rgba(255,254,232,.78); }
+#aislelys .quote.sm { text-align: center; padding-top: 17px; border-top: 1px solid rgba(255,254,232,.28); }
+#aislelys .quote.sm blockquote { font-size: 16.8px; line-height: 25.2px; }
+#aislelys .quote.sm figcaption { margin-top: 6px; font-size: 12.8px; line-height: 19.2px; }
+
+/* glass panels */
+#aislelys .glass { background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.3)), rgba(255,255,255,.3); border: 1px solid rgba(255,255,255,.8); border-radius: 12px; box-shadow: 0 6px 22px rgba(60,45,35,.07), inset 0 1px 0 rgba(255,255,255,.9); }
+#aislelys .panel { padding: 18px; }
+#aislelys .ph { display: flex; align-items: baseline; justify-content: space-between; height: 28px; }
+#aislelys .ph h2 { margin: 0; font: 700 18.4px/27.6px var(--serif); }
+#aislelys .ph a { font: 600 12.8px/19.2px var(--ui); color: var(--gold-ink); }
+#aislelys .tl { list-style: none; margin: 10px 0 0; padding: 0; }
+#aislelys .tl li { height: 41px; display: flex; align-items: center; gap: 10px; padding: 10px 4px; }
+#aislelys .tl li + li { border-top: 1px solid rgba(237,226,204,.9); }
+#aislelys .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+#aislelys .tt { flex: 1; min-width: 0; font: 600 14px/21px var(--ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#aislelys .tp { font: 600 10.8px/16.2px var(--ui); color: var(--muted); background: var(--cream); border-radius: 999px; padding: 2px 10px; flex: none; }
+#aislelys .td { font: 400 12px/18px var(--ui); color: var(--muted); white-space: nowrap; flex: none; min-width: 106px; text-align: right; }
+#aislelys .cell { padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; }
+#aislelys .cell .bl { font: 500 12.48px/18.72px var(--ui); color: var(--muted); white-space: nowrap; }
+#aislelys .cell .bv { font: 700 20px/30px var(--serif); white-space: nowrap; font-variant-numeric: tabular-nums; }
+#aislelys .bv.pos { color: var(--green); }
+#aislelys .cell.hi { border-color: var(--gold); background: linear-gradient(to top, rgba(185,151,103,.14), rgba(196,164,120,.06) 45%, rgba(196,164,120,0) 75%), linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.3)), rgba(255,255,255,.3); box-shadow: inset 0 0 0 .5px var(--gold), 0 6px 22px rgba(60,45,35,.07); }
+
+/* budget page (laid out in normal flow; it scrolls inside its window) */
+#aislelys .bscroll { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
+#aislelys .bhead { position: relative; }
+#aislelys .bmain { padding: 28px 129px 40px; } /* 34 + the 95 px that centre the app's column in a 1390 px browser */
+#aislelys .m .bmain { padding: 28px 20px 40px; }
+#aislelys .pt { margin: 0; font: 700 24px/36px var(--serif); }
+#aislelys .ps { margin: 16px 0 30px; max-width: 545px; font: 400 14.72px/22.08px var(--ui); color: var(--muted); }
+#aislelys .m .ps { font-size: 13.6px; line-height: 20.4px; }
+#aislelys .bsum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+#aislelys .m .bsum { grid-template-columns: 1fr 1fr; }
+#aislelys .bsum .cell { height: 79px; }
+#aislelys .bsum .row { display: flex; align-items: baseline; gap: 4px; }
+#aislelys .bsum .row .pct { margin-left: auto; font: 700 15.2px/22.8px var(--serif); color: var(--green); }
+#aislelys .addx { margin-top: 20px; display: inline-block; padding: 10px 18px; border-radius: 8px; background: var(--sage-btn); color: #fff; font: 500 14px var(--ui); }
+#aislelys .secs { margin-top: 16px; display: flex; flex-direction: column; gap: 27px; }
+#aislelys .bsec { padding: 18px 20px; border-left: 4px solid var(--c); }
+#aislelys .bsh { display: flex; align-items: center; gap: 10px; height: 25px; margin-bottom: 14px; }
+#aislelys .bsh .sd { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+#aislelys .bsh b { flex: 1; font: 700 16.4px/24.6px var(--serif); }
+#aislelys .bsh .sst { font: 600 12.8px/19.2px var(--ui); color: var(--muted); }
+#aislelys .bsh .scnt { font: 600 10.8px/16.2px var(--ui); color: var(--muted); background: var(--cream); border-radius: 999px; padding: 2px 10px; }
+#aislelys .cl { display: flex; flex-direction: column; gap: 10px; }
+#aislelys .bc { border: 1px solid rgba(255,255,255,.8); border-left: 4px solid var(--c); border-radius: 10px; background: rgba(255,255,255,.16); box-shadow: 0 3px 12px rgba(60,45,35,.06), inset 0 1px 0 rgba(255,255,255,.9); overflow: hidden; }
+#aislelys .bch { height: 44px; display: flex; align-items: center; gap: 10px; padding: 12px 14px; }
+#aislelys .chev { width: 12px; height: 12px; color: var(--muted); display: grid; place-items: center; flex: none; }
+#aislelys .chev svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+#aislelys .bch .ct { flex: 1; font: 600 13px var(--ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#aislelys .pp { font: 600 11.52px var(--ui); padding: 3px 10px; border-radius: 999px; color: var(--muted); background: var(--cream); }
+#aislelys .pp.paid { color: #fff; background: var(--green); }
+#aislelys .bcb { height: 0; overflow: hidden; }
+#aislelys .bcbi { border-top: 1px solid var(--line); padding: 4px 16px 16px; display: flex; flex-direction: column; gap: 16px; }
+#aislelys .vb { display: flex; flex-direction: column; gap: 6px; padding-top: 1px; }
+#aislelys .vb .vl { font: 600 12.8px/19.2px var(--ui); color: var(--muted); }
+#aislelys .vb p { margin: 0; font: 400 14.72px/22.08px var(--ui); }
+#aislelys .vb p em { color: var(--muted); }
+#aislelys .cf { border-top: 1px solid var(--line); padding-top: 10px; display: flex; justify-content: flex-end; }
+#aislelys .cf span { border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; font: 500 13.6px var(--ui); }
+
+/* landing page window: a capture, plus live sub-task rows on top of it */
+#aislelys .view { position: absolute; overflow: hidden; background: #fff; }
+#aislelys .vscroll { position: absolute; left: 0; top: 0; width: 100%; will-change: transform; }
+#aislelys .vscroll img { display: block; width: 100%; height: auto; }
+#aislelys .cover { position: absolute; background: #fff; }
+/* covers the capture's invite link, which shows the local dev address */
+#aislelys .linkc { position: absolute; display: flex; align-items: center; padding: 0 14px; border: 1px solid rgba(255,254,232,.35); border-radius: 12px; background: rgb(104,105,73); color: #FFFEE8; font: 400 14px/21px var(--ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#aislelys .pillc { position: absolute; display: grid; place-items: center; border-radius: 999px; background: var(--cream); color: var(--muted); font: 600 10.8px var(--ui); white-space: nowrap; }
+#aislelys .srow { position: absolute; display: flex; align-items: center; gap: 8px; }
+#aislelys .srow .st { width: 16px; height: 12px; display: grid; place-items: center; position: relative; color: var(--muted); }
+#aislelys .srow .st svg { position: absolute; left: 2px; top: 0; width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+#aislelys .srow .st .ck { color: var(--gold); }
+#aislelys .srow .nm { background: linear-gradient(currentColor, currentColor) no-repeat 0 55% / 0% 1px; white-space: nowrap; }
+#aislelys .srow .av { margin-left: auto; width: 22px; height: 22px; border-radius: 50%; color: #fff; font: 700 11.2px/22px var(--ui); text-align: center; }
+
+#aislelys .after { padding-block: 96px 120px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); position: relative; }
+#aislelys .after .inner { max-width: 1080px; margin: 0 auto; }
+#aislelys .after h2 { font: 400 clamp(30px, 4.2vw, 48px)/1.08 var(--serif); letter-spacing: -.005em; margin: 12px 0 40px; max-width: 20ch; text-wrap: balance; }
+#aislelys .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+#aislelys .cols h3 { font: 700 20px var(--serif); margin: 0 0 8px; }
+#aislelys .cols p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+#aislelys .cols .k { font: 600 12px var(--ui); color: var(--gold-ink); letter-spacing: .1em; text-transform: uppercase; display: block; margin-bottom: 12px; padding-top: 14px; border-top: 1.5px solid var(--ink); }
+@media (max-width: 760px) { #aislelys .cols { grid-template-columns: 1fr; gap: 28px; } }
+/* phone view: this section's type is 2px smaller throughout (as on Kedaipal) */
+@media (max-width: 699px) {
+  #aislelys .after .eyebrow, #aislelys .cols .k { font-size: 10px; }
+  #aislelys .after h2 { font-size: 28px; }
+  #aislelys .cols h3 { font-size: 18px; }
+  #aislelys .cols p { font-size: 13px; }
+}

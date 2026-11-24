@@ -1,0 +1,193 @@
+/* Kedaipal story. Every rule is scoped to #kedaipal so other projects
+   on the page cannot clash with it. */
+/* Layout: a tall scroll track pins one stage. The seller's Kedaipal home
+   arrives whole, its navigation fades in, the key numbers fly in and the
+   latest orders pop in one by one. Styles are lifted from the live app
+   (Geist / Red Hat Display, its borders, radii, pills). White, by request. */
+#kedaipal {
+  --bg: #FFFFFF;
+  --ink: #0F1729;
+  --muted: #58687E;
+  --line: #E1E7EF;
+  --soft: #F5F7FA;
+  --mint: #10B77F;
+  --mint-deep: #047857;
+  --mint-wash: rgba(16, 183, 127, .12);
+  --display: "Red Hat Display", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --ui: "Geist", "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+#kedaipal * { box-sizing: border-box; }
+#kedaipal { background: var(--bg); color: var(--ink); font-family: var(--ui); }
+#kedaipal svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+#kedaipal .track { position: relative; height: 1000vh; }
+/* each window (dashboard, blog, landing page) moves as one piece */
+#kedaipal .win { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+#kedaipal .view { position: absolute; overflow: hidden; background: #fff; }
+#kedaipal .view img { display: block; width: 100%; height: auto; will-change: transform; }
+/* the landing page is shown in its dark theme, so its window goes dark too */
+#kedaipal .dark { --dk: #080C16; }
+#kedaipal .browser.dark { background: var(--dk); border-color: #1E293B; }
+#kedaipal .browser.dark .bar { background: #0F1626; border-color: #1E293B; }
+#kedaipal .browser.dark .dots i { background: #2A3448; }
+#kedaipal .browser.dark .url { background: var(--dk); border-color: #1E293B; color: #94A3B8; }
+#kedaipal .phone.dark .scr, #kedaipal .dark .view { background: var(--dk); }
+#kedaipal .phone.dark .sb { color: #fff; }
+#kedaipal .phone.dark .sb i b { background: #fff; }
+#kedaipal .lab { position: absolute; left: 0; right: 0; text-align: center; font: 800 52px var(--display); letter-spacing: -.01em; }
+#kedaipal .lab small { display: block; margin-top: 6px; font: 500 32px var(--ui); color: var(--muted); letter-spacing: 0; }
+#kedaipal .pin { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
+#kedaipal .scaler { position: absolute; left: 50%; top: 50%; transform-origin: 0 0; }
+#kedaipal .stage { position: absolute; left: 0; top: 0; }
+
+#kedaipal .hero { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); pointer-events: none; z-index: 40; }
+#kedaipal .eyebrow { font: 600 12px/1 var(--ui); letter-spacing: .14em; text-transform: uppercase; color: var(--mint-deep); }
+#kedaipal .hero h1 { font: 800 clamp(34px, 6vw, 76px)/1.02 var(--display); letter-spacing: -.02em; margin: 14px auto 12px; text-wrap: balance; max-width: 12ch; }
+#kedaipal .hero p { margin: 0; color: var(--muted); font-size: clamp(15px, 1.4vw, 18px); }
+#kedaipal .hint { position: absolute; left: 50%; bottom: max(28px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; font: 500 12px var(--ui); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; z-index: 40; }
+#kedaipal .hint i { width: 22px; height: 34px; border: 1.5px solid var(--line); border-radius: 12px; position: relative; }
+#kedaipal .hint i::after { content: ""; position: absolute; left: 50%; top: 7px; width: 4px; height: 7px; margin-left: -2px; border-radius: 2px; background: var(--mint); animation: kp-wheel 1.6s ease-in-out infinite; }
+@keyframes kp-wheel { 0%{transform:translateY(0);opacity:1} 70%{transform:translateY(10px);opacity:0} 100%{opacity:0} }
+@media (prefers-reduced-motion: reduce) { #kedaipal .hint i::after { animation: none; } }
+
+/* frames */
+#kedaipal .browser { position: absolute; background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 50px 90px -34px rgba(15,23,42,.28), 0 2px 6px rgba(15,23,42,.05); overflow: hidden; }
+#kedaipal .browser .bar { height: 44px; display: flex; align-items: center; gap: 14px; padding: 0 16px; border-bottom: 1px solid var(--line); background: #FAFBFC; }
+#kedaipal .dots { display: flex; gap: 7px; } #kedaipal .dots i { width: 11px; height: 11px; border-radius: 50%; background: #E2E6EC; }
+#kedaipal .url { flex: 0 1 380px; margin: 0 auto; height: 26px; border-radius: 8px; background: #fff; border: 1px solid var(--line); font: 500 12px/24px var(--ui); color: var(--muted); text-align: center; }
+#kedaipal .phone { position: absolute; filter: drop-shadow(0 40px 46px rgba(0,0,0,.26)); }
+/* the owner's phone image (shared/phone-frame.png, 941 × 1780) drawn over the screen. It
+   has its own dark status bar; the see-through screen below it (703 × 1454 at 118, 246)
+   shows the app's 390 × 797 page area. The screen element starts 47 px higher so its
+   own status bar hides under the image's. */
+#kedaipal .phone::after { content: ""; position: absolute; inset: 0; background: url(../../shared/phone-frame.png?v=2) 0 0 / 100% 100% no-repeat; z-index: 70; pointer-events: none; }
+#kedaipal .phone .scr { position: absolute; left: 65.47px; top: 87.86px; width: 390px; height: 844px; background: #fff; border-radius: 0 0 58px 58px; overflow: hidden; }
+#kedaipal .phone .sb { height: 47px; display: flex; justify-content: space-between; align-items: center; padding: 8px 34px 0; font: 600 15px var(--ui); }
+#kedaipal .phone .sb i { display: flex; gap: 3px; align-items: flex-end; }
+#kedaipal .phone .sb i b { width: 4px; border-radius: 1px; background: var(--ink); display: block; }
+#kedaipal .phone .island { display: none; } /* the Dynamic Island is in the phone image */
+#kedaipal .phone .sb { visibility: hidden; } /* so is the status bar */
+#kedaipal .phone .homebar { position: absolute; bottom: 52px; left: 50%; width: 130px; height: 5px; margin-left: -65px; border-radius: 3px; background: var(--ink); z-index: 60; }
+#kedaipal .content { position: absolute; }
+#kedaipal .group { position: absolute; inset: 0; }
+#kedaipal .at { position: absolute; }
+
+/* sidebar (desktop) */
+#kedaipal .side { position: absolute; left: 0; top: 0; bottom: 0; width: 216px; border-right: 1px solid var(--line); background: #fff; }
+#kedaipal .brand { display: flex; gap: 10px; align-items: center; padding: 14px 16px; height: 62px; border-bottom: 1px solid var(--line); }
+#kedaipal .brand img { height: 30px; width: auto; }
+#kedaipal .brand b { display: block; font: 600 14px/1.2 var(--ui); }
+#kedaipal .brand code { font: 11px var(--mono); color: var(--muted); }
+#kedaipal .plan { margin: 12px 16px; height: 62px; border: 1.5px dashed #C9D2DD; border-radius: 6px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+#kedaipal .plan .tag { position: absolute; top: -8px; left: 12px; background: #fff; padding: 0 6px; font: 600 9.5px var(--ui); color: var(--muted); letter-spacing: .04em; }
+#kedaipal .plan b { font: 700 15px var(--mono); }
+#kedaipal .plan .pips { display: flex; gap: 3px; }
+#kedaipal .plan .pips i { width: 5px; height: 5px; border-radius: 50%; background: var(--mint); }
+#kedaipal .plan .pips i.o { background: none; box-shadow: inset 0 0 0 1px #B6C1CE; }
+#kedaipal .navlist { border-top: 1px solid var(--line); padding: 8px; display: flex; flex-direction: column; gap: 2px; }
+#kedaipal .nv { height: 40px; display: flex; align-items: center; gap: 12px; padding: 0 12px; border-radius: 12px; font: 400 14px var(--ui); color: var(--muted); position: relative; }
+#kedaipal .nv.on { background: var(--mint-wash); color: var(--ink); font-weight: 600; }
+#kedaipal .nv.on svg { color: var(--mint-deep); }
+#kedaipal .nv.on::before { content: ""; position: absolute; left: -8px; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--mint); }
+#kedaipal .me { position: absolute; left: 0; right: 0; bottom: 0; border-top: 1px solid var(--line); padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 12px; }
+#kedaipal .me .u { display: flex; align-items: center; gap: 10px; }
+#kedaipal .av { width: 28px; height: 28px; border-radius: 50%; background: #1E2A44; color: #fff; font: 600 11px/28px var(--ui); text-align: center; flex: none; }
+#kedaipal .me .u b { display: block; font: 600 12px var(--ui); }
+#kedaipal .me .u small { font-size: 10.5px; color: var(--muted); }
+#kedaipal .me .u svg { margin-left: auto; color: var(--muted); }
+#kedaipal .me .wn { display: flex; align-items: center; gap: 8px; font: 500 12px var(--ui); }
+#kedaipal .me .wn svg { width: 15px; height: 15px; color: var(--mint-deep); }
+#kedaipal .me .wn span { margin-left: auto; font-size: 11px; color: var(--muted); background: var(--soft); border-radius: 999px; padding: 3px 9px; }
+
+/* header */
+#kedaipal .spot { border-radius: 50%; background: #CBD5E1; }
+#kedaipal .date { font-size: 13px; color: var(--muted); }
+#kedaipal .hello { font: 800 24px/1.15 var(--display); letter-spacing: -.01em; white-space: nowrap; }
+#kedaipal .hello.sm { font-size: 21px; }
+#kedaipal .hello em { font-style: normal; background: linear-gradient(transparent 62%, rgba(16,183,127,.28) 62%); }
+#kedaipal .bt { display: flex; align-items: center; justify-content: center; gap: 7px; border-radius: 10px; font: 500 12.8px var(--ui); border: 1px solid var(--line); background: #fff; }
+#kedaipal .bt svg { width: 15px; height: 15px; }
+#kedaipal .bt.mint { background: var(--mint); border-color: transparent; color: var(--ink); }
+#kedaipal .bt.refer { background: #F0FBF6; border: 1.5px dashed #8FDCC0; color: var(--mint-deep); font-weight: 600; }
+#kedaipal .bt.refer small { color: var(--muted); font-weight: 400; }
+#kedaipal .tile { background: #fff; border: 1px solid var(--line); border-radius: 20px; }
+#kedaipal .tile .ib { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; }
+#kedaipal .tile .ib svg { width: 19px; height: 19px; }
+#kedaipal .ib.amber { background: #FEF3C7; color: #B45309; }
+#kedaipal .ib.mint { background: #D1FAE5; color: #047857; }
+#kedaipal .ib.slate { background: #F1F5F9; color: #475569; }
+#kedaipal .tile b { font: 600 13px var(--ui); display: block; }
+#kedaipal .tile small { font-size: 12px; color: var(--muted); }
+#kedaipal .tile .num { font: 800 22px/1 var(--display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+#kedaipal .num.amber { color: #B45309; }
+#kedaipal .tile.wide { display: flex; align-items: center; gap: 14px; padding: 0 20px; }
+#kedaipal .tile.wide .num { margin-left: auto; font-size: 26px; }
+#kedaipal .tile.tall { padding: 12px; display: flex; flex-direction: column; }
+#kedaipal .tile.tall .ib { width: 30px; height: 30px; border-radius: 9px; margin-bottom: 12px; }
+#kedaipal .tile.tall .ib svg { width: 16px; height: 16px; }
+#kedaipal .tile.tall .num { margin-bottom: 6px; }
+#kedaipal .sec { display: flex; align-items: center; justify-content: space-between; }
+#kedaipal .sec b { font: 800 18px var(--display); }
+#kedaipal .sec a { font: 600 13px var(--ui); color: var(--mint-deep); display: flex; align-items: center; gap: 2px; }
+#kedaipal .sec svg { width: 15px; height: 15px; }
+
+/* order card, as on the Orders page */
+#kedaipal .oc { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 9px; }
+#kedaipal .oc .t { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+#kedaipal .oc .t b { font: 600 15px var(--ui); }
+#kedaipal .oc .t .amt { font: 700 15px var(--ui); font-variant-numeric: tabular-nums; }
+#kedaipal .oc .m { font-size: 12.5px; color: var(--muted); margin-top: -6px; white-space: nowrap; }
+#kedaipal .oc .it { background: var(--soft); border-radius: 12px; height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 13px; color: var(--muted); }
+#kedaipal .oc .it b { color: var(--ink); font-weight: 500; }
+#kedaipal .oc .f { display: flex; align-items: center; gap: 8px; }
+#kedaipal .oc .f .end { margin-left: auto; display: flex; gap: 10px; color: #8A97A8; }
+#kedaipal .oc .f .end svg { width: 16px; height: 16px; }
+#kedaipal .pl { font: 600 12px var(--ui); padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+#kedaipal .pl.done { background: #DCFCE7; color: #15803D; }
+#kedaipal .pl.conf { background: #DBEAFE; color: #1D4ED8; }
+#kedaipal .pl.new { background: #FEF3C7; color: #B45309; }
+#kedaipal .dc { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #475569; background: var(--soft); padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+#kedaipal .dc svg { width: 13px; height: 13px; }
+#kedaipal .dc.late { background: #FEF2F2; color: #DC2626; }
+
+#kedaipal .toast { background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 30px -10px rgba(15,23,42,.22); display: flex; align-items: center; gap: 12px; padding: 0 16px; font-size: 13px; }
+#kedaipal .toast .ok { width: 22px; height: 22px; border-radius: 50%; background: var(--mint); color: #fff; display: grid; place-items: center; flex: none; }
+#kedaipal .toast .ok svg { width: 13px; height: 13px; stroke-width: 3; }
+#kedaipal .toast b { display: block; font-weight: 600; }
+#kedaipal .toast small { color: var(--muted); font-size: 12px; }
+
+/* phone header + tab bar */
+#kedaipal .mtop { position: absolute; left: 0; right: 0; top: 47px; height: 82px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; padding: 0 20px; }
+#kedaipal .mtop img { height: 32px; }
+#kedaipal .mtop b { display: block; font: 600 15px/1.2 var(--ui); }
+#kedaipal .mtop code { font: 12px var(--mono); color: var(--muted); display: block; margin: 2px 0 4px; }
+#kedaipal .mtop .pr { display: flex; gap: 6px; align-items: center; }
+#kedaipal .mtop .pr span { font: 600 10px var(--ui); color: var(--muted); background: #F1F5F9; border-radius: 999px; padding: 2px 8px; }
+#kedaipal .mtop .pr em { font: 700 12px var(--mono); font-style: normal; border: 1.5px dashed #C9D2DD; border-radius: 4px; padding: 1px 6px; }
+#kedaipal .mtop .r { margin-left: auto; display: flex; align-items: center; gap: 18px; color: var(--muted); }
+#kedaipal .mtop .av { width: 32px; height: 32px; line-height: 32px; font-size: 12px; }
+#kedaipal .mtabs { position: absolute; left: 0; right: 0; bottom: 0; height: 84px; border-top: 1px solid var(--line); background: #fff; display: grid; grid-template-columns: repeat(5, 1fr); padding-top: 9px; }
+#kedaipal .mtabs div { display: flex; flex-direction: column; align-items: center; gap: 4px; font: 500 11.5px var(--ui); color: var(--muted); }
+#kedaipal .mtabs svg { width: 20px; height: 20px; }
+#kedaipal .mtabs .on { color: var(--ink); font-weight: 600; }
+#kedaipal .mtabs .on span { background: var(--mint-wash); border-radius: 14px; width: 48px; height: 28px; display: grid; place-items: center; color: var(--mint-deep); margin-top: -4px; }
+
+#kedaipal .pc { position: absolute; will-change: transform, opacity; }
+
+#kedaipal .after { padding-block: 96px 120px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+#kedaipal .after .inner { max-width: 1080px; margin: 0 auto; }
+#kedaipal .after h2 { font: 800 clamp(28px, 4vw, 44px)/1.08 var(--display); letter-spacing: -.015em; margin: 12px 0 40px; max-width: 18ch; text-wrap: balance; }
+#kedaipal .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+#kedaipal .cols h3 { font: 700 18px var(--display); margin: 0 0 8px; }
+#kedaipal .cols p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+#kedaipal .cols .k { font: 600 12px var(--ui); color: var(--mint-deep); letter-spacing: .1em; text-transform: uppercase; display: block; margin-bottom: 12px; padding-top: 14px; border-top: 1.5px solid var(--ink); }
+@media (max-width: 760px) { #kedaipal .cols { grid-template-columns: 1fr; gap: 28px; } }
+/* phone view: this section's type is 2px smaller throughout */
+@media (max-width: 699px) {
+  #kedaipal .after .eyebrow, #kedaipal .cols .k { font-size: 10px; }
+  #kedaipal .after h2 { font-size: 26px; }
+  #kedaipal .cols h3 { font-size: 16px; }
+  #kedaipal .cols p { font-size: 13px; }
+}

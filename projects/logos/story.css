@@ -1,0 +1,58 @@
+/* Logo design section (owner's request): the 14 logos from logo-designs.ai, one
+   per Illustrator layer, shown below SG Cards on the dark page. Scoped to #logos. */
+#logos {
+  --ink: #F4F4F5;
+  --muted: #A1A1AA;
+  --line: rgba(255,255,255,.09);
+  --ui: "Geist", "Inter", "Segoe UI", system-ui, sans-serif;
+  --display: "Red Hat Display", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink); font-family: var(--ui);
+  padding-block: 120px 140px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+#logos * { box-sizing: border-box; }
+#logos .inner { max-width: 1080px; margin: 0 auto; }
+#logos .eyebrow { font: 600 12px/1 var(--ui); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+#logos h2 { font: 800 clamp(30px, 4.6vw, 52px)/1.04 var(--display); letter-spacing: -.02em; margin: 14px 0 12px; max-width: 16ch; text-wrap: balance; }
+#logos .lead { margin: 0 0 44px; color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 52ch; }
+#logos .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+#logos .tile { aspect-ratio: 1; border-radius: 20px; background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border: 1px solid var(--line); display: grid; place-items: center; transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s ease, border-color .2s ease; }
+#logos .tile:hover { border-color: rgba(255,255,255,.2); }
+#logos .tile img { width: 44.8%; height: 44.8%; /* 30% smaller than 64% (owner's request) */ object-fit: contain; display: block; }
+/* tiles rise in one after another when the section comes into view */
+#logos.pre .tile { opacity: 0; transform: translateY(18px) scale(.96); }
+@media (max-width: 900px) { #logos .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 699px) {
+  #logos { padding-block: 80px 100px; }
+  #logos .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  #logos .tile { border-radius: 14px; }
+  #logos .eyebrow { font-size: 10px; }
+  #logos .lead { font-size: 14px; margin-bottom: 28px; }
+}
+@media (prefers-reduced-motion: reduce) { #logos .tile { transition: none; } #logos.pre .tile { opacity: 1; transform: none; } }
+
+/* Owner's request: at rest every logo is white / grey at 80% opacity on a plain
+   tile; the glass tile and the logo's own colours appear on hover (desktop) or,
+   on touch screens, while the tile is in the middle of the screen (.on, story.js). */
+#logos .tile { background: transparent; border-color: transparent; transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s ease, background-color .35s ease, border-color .35s ease, box-shadow .35s ease; }
+#logos .tile img { filter: grayscale(1) brightness(1.2); opacity: .8; transition: filter .35s ease, opacity .35s ease, transform .35s ease; }
+#logos .tile:hover, #logos .tile.on {
+  background: linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+  border-color: rgba(255,255,255,.18);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 18px 40px -18px rgba(0,0,0,.6);
+  -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+}
+#logos .tile:hover img, #logos .tile.on img { filter: none; opacity: 1; transform: scale(1.04); }
+@media (prefers-reduced-motion: reduce) { #logos .tile img { transition: none; } }
+
+/* the section's eyebrow, heading and line are centred (owner's request) */
+#logos .inner > .eyebrow { display: block; text-align: center; }
+#logos h2, #logos .lead { text-align: center; margin-left: auto; margin-right: auto; }
+
+/* the last, unfilled row sits centred (owner's request): a wrapping flex row with
+   the same column widths as before (5 / 4 / 3 across) */
+#logos .grid { display: flex; flex-wrap: wrap; justify-content: center; }
+#logos .grid > .tile { flex: 0 0 calc((100% - 4 * 16px) / 5); }
+@media (max-width: 900px) { #logos .grid > .tile { flex-basis: calc((100% - 3 * 16px) / 4); } }
+@media (max-width: 699px) { #logos .grid > .tile { flex-basis: calc((100% - 2 * 10px) / 3); } }
