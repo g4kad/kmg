@@ -1,15 +1,13 @@
 // Keeps the background grid (shared/aura.css #grid) moving with the page, so it
-// reads as one continuous sheet, and drifts its faded patches along with it.
+// reads as one continuous sheet. It slides the grid's inner layer with a transform
+// (cheap: no repaint) by scrollY modulo the layer's 1440 px repeat.
 (() => {
-  const g = document.getElementById("grid");
+  const g = document.querySelector("#grid i");
   if (!g) return;
   let raf = 0;
   const paint = () => {
     raf = 0;
-    const y = -scrollY;
-    g.style.backgroundPosition = `0 ${y}px`;
-    const m = `0 0, 0 ${y * .6}px, 0 ${y * .8}px`;
-    g.style.maskPosition = m; g.style.webkitMaskPosition = m;
+    g.style.transform = `translate3d(0, ${-(scrollY % 1440)}px, 0)`;
   };
   addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(paint); }, { passive: true });
   paint();

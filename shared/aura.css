@@ -4,11 +4,11 @@
    from one project to the next. The project blocks are made see-through so it
    shows behind them. */
 #aura { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: var(--aura-base, #0A0A0B); }
-#aura i { position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; filter: blur(70px); opacity: .55; will-change: transform; }
-#aura i:nth-child(1) { left: -22vmax; top: -24vmax; background: radial-gradient(circle, var(--aura-1) 0%, transparent 68%); animation: aura-a 26s ease-in-out infinite alternate; }
-#aura i:nth-child(2) { right: -26vmax; top: -8vmax; background: radial-gradient(circle, var(--aura-2) 0%, transparent 68%); animation: aura-b 31s ease-in-out infinite alternate; }
-#aura i:nth-child(3) { left: 8vmax; bottom: -34vmax; background: radial-gradient(circle, var(--aura-3) 0%, transparent 68%); animation: aura-c 23s ease-in-out infinite alternate; }
-#aura i:nth-child(4) { right: -10vmax; bottom: -30vmax; width: 52vmax; height: 52vmax; opacity: .4; background: radial-gradient(circle, var(--aura-1) 0%, transparent 68%); animation: aura-d 37s ease-in-out infinite alternate; }
+#aura i { position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; opacity: .55; scale: 1.06; will-change: transform; } /* no blur filter: it made scrolling lag (owner's report); the soft gradients below give the same look */
+#aura i:nth-child(1) { left: -22vmax; top: -24vmax; background: radial-gradient(circle closest-side, color-mix(in srgb, var(--aura-1) 80%, transparent) 0%, color-mix(in srgb, var(--aura-1) 70%, transparent) 24%, color-mix(in srgb, var(--aura-1) 48%, transparent) 48%, color-mix(in srgb, var(--aura-1) 24%, transparent) 70%, color-mix(in srgb, var(--aura-1) 8%, transparent) 87%, transparent 100%); animation: aura-a 26s ease-in-out infinite alternate; }
+#aura i:nth-child(2) { right: -26vmax; top: -8vmax; background: radial-gradient(circle closest-side, color-mix(in srgb, var(--aura-2) 80%, transparent) 0%, color-mix(in srgb, var(--aura-2) 70%, transparent) 24%, color-mix(in srgb, var(--aura-2) 48%, transparent) 48%, color-mix(in srgb, var(--aura-2) 24%, transparent) 70%, color-mix(in srgb, var(--aura-2) 8%, transparent) 87%, transparent 100%); animation: aura-b 31s ease-in-out infinite alternate; }
+#aura i:nth-child(3) { left: 8vmax; bottom: -34vmax; background: radial-gradient(circle closest-side, color-mix(in srgb, var(--aura-3) 80%, transparent) 0%, color-mix(in srgb, var(--aura-3) 70%, transparent) 24%, color-mix(in srgb, var(--aura-3) 48%, transparent) 48%, color-mix(in srgb, var(--aura-3) 24%, transparent) 70%, color-mix(in srgb, var(--aura-3) 8%, transparent) 87%, transparent 100%); animation: aura-c 23s ease-in-out infinite alternate; }
+#aura i:nth-child(4) { right: -10vmax; bottom: -30vmax; width: 52vmax; height: 52vmax; opacity: .4; background: radial-gradient(circle closest-side, color-mix(in srgb, var(--aura-1) 80%, transparent) 0%, color-mix(in srgb, var(--aura-1) 70%, transparent) 24%, color-mix(in srgb, var(--aura-1) 48%, transparent) 48%, color-mix(in srgb, var(--aura-1) 24%, transparent) 70%, color-mix(in srgb, var(--aura-1) 8%, transparent) 87%, transparent 100%); animation: aura-d 37s ease-in-out infinite alternate; }
 @keyframes aura-a { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(18vw, 14vh) scale(1.15); } 100% { transform: translate(6vw, 30vh) scale(.92); } }
 @keyframes aura-b { 0% { transform: translate(0, 0) scale(1.05); } 50% { transform: translate(-20vw, 18vh) scale(.9); } 100% { transform: translate(-8vw, 36vh) scale(1.12); } }
 @keyframes aura-c { 0% { transform: translate(0, 0) scale(.95); } 50% { transform: translate(22vw, -16vh) scale(1.1); } 100% { transform: translate(34vw, -6vh) scale(1); } }
@@ -46,16 +46,23 @@ body :is(#kedaipal, #aislelys, #sgcards, #deqly) .after .cols p, body #logos .le
 body :is(#kedaipal, #aislelys, #sgcards, #deqly) .after .cols .k { border-top-color: #E4E4E7; }
 
 /* White grid over the whole page (owner's request, from a reference image): fixed
-   behind the content, scrolled by grid.js so it moves with the page, 20% opacity.
-   It fades out towards the corners and in soft patches that drift with the page. */
-#grid { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .2;
+   behind the content, 20% opacity, fading out towards the corners and in soft patches.
+   The pattern and its patches live on an inner layer that grid.js slides with a
+   transform as the page scrolls, so the browser moves an already-drawn layer instead
+   of repainting the masked grid every frame (owner's report: scrolling lagged).
+   The layer repeats every 1440 px (9 grid tiles; 12 on the phone), so sliding it by
+   scrollY % 1440 looks exactly like one endless sheet. */
+#grid { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .2; overflow: hidden;
+  -webkit-mask-image: radial-gradient(ellipse 85% 80% at 50% 50%, #000 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 80% at 50% 50%, #000 45%, transparent 100%); }
+#grid i { position: absolute; left: 0; right: 0; top: 0; height: calc(100% + 1440px); will-change: transform;
   background: url(grid.svg) 0 0 / 160px 160px repeat;
-  -webkit-mask-image: radial-gradient(ellipse 85% 80% at 50% 50%, #000 45%, transparent 100%), radial-gradient(circle at 20% 30%, transparent 0, #000 22%), radial-gradient(circle at 78% 70%, transparent 0, #000 20%);
-  mask-image: radial-gradient(ellipse 85% 80% at 50% 50%, #000 45%, transparent 100%), radial-gradient(circle at 20% 30%, transparent 0, #000 22%), radial-gradient(circle at 78% 70%, transparent 0, #000 20%);
-  -webkit-mask-composite: source-in, source-in; mask-composite: intersect;
-  -webkit-mask-size: 100% 100%, 100% 220vh, 100% 260vh; mask-size: 100% 100%, 100% 220vh, 100% 260vh;
-  -webkit-mask-repeat: no-repeat, repeat, repeat; mask-repeat: no-repeat, repeat, repeat; }
-@media (max-width: 699px) { #grid { background-size: 120px 120px; } }
+  -webkit-mask-image: radial-gradient(circle at 20% 360px, transparent 0, #000 26vmax), radial-gradient(circle at 78% 1080px, transparent 0, #000 24vmax);
+  mask-image: radial-gradient(circle at 20% 360px, transparent 0, #000 26vmax), radial-gradient(circle at 78% 1080px, transparent 0, #000 24vmax);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+  -webkit-mask-size: 100% 1440px; mask-size: 100% 1440px;
+  -webkit-mask-repeat: repeat-y; mask-repeat: repeat-y; }
+@media (max-width: 699px) { #grid i { background-size: 120px 120px; } }
 
 /* Phone: side room for body text and descriptions, 34 px a side (owner's requests:
    first 56 px, then 40% less),

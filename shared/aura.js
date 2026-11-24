@@ -18,7 +18,7 @@
   const smooth = (t) => t * t * (3 - 2 * t);
   const blocks = BRANDS.map(([id]) => document.getElementById(id));
 
-  let raf = 0;
+  let raf = 0, last = "";
   function paint() {
     raf = 0;
     // Each project keeps its colours through its write-up; the blend to the next
@@ -34,8 +34,12 @@
       if (p >= 1) { i = k; t = 0; } else if (p > 0) { i = k - 1; t = smooth(p); break; } else break;
     }
     const [, baseA, a] = BRANDS[i], [, baseB, b] = BRANDS[Math.min(i + 1, BRANDS.length - 1)];
-    aura.style.setProperty("--aura-base", mix(baseA, baseB, t));
-    a.forEach((c, k) => aura.style.setProperty(`--aura-${k + 1}`, mix(c, b[k], t)));
+    // only touch the colours when they change: every change repaints the background
+    const next = [mix(baseA, baseB, t), ...a.map((c, k) => mix(c, b[k], t))];
+    if (next.join() === last) return;
+    last = next.join();
+    aura.style.setProperty("--aura-base", next[0]);
+    next.slice(1).forEach((c, k) => aura.style.setProperty(`--aura-${k + 1}`, c));
   }
   const ask = () => { if (!raf) raf = requestAnimationFrame(paint); };
   addEventListener("scroll", ask, { passive: true });
