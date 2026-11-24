@@ -3,13 +3,13 @@
 // Clicking a mark jumps straight to that project's browser. Styles: `.pnav` in shared/chrome.css.
 (() => {
   const PROJECTS = [
-    // [id, name, colour, where a click lands: scrolls into the section — just after
-    // its browser / phone has risen and before any piece flies in]
+    // [id, name, colour, where a click lands, in screens into the section: 0 = the
+    // case study's title page (owner's request; it used to land on the browser / phone)]
     ["intro", "Introduction", "#F4F4F5", 0],
-    ["kedaipal", "Kedaipal", "#34D399", 1.08],
-    ["aislelys", "Aislelys", "#D9BC8C", 1.08],
-    ["sgcards", "SG Cards", "#FF6B63", .9],
-    ["deqly", "Deqly", "#FF7A7A", .69],
+    ["kedaipal", "Kedaipal", "#34D399", 0],
+    ["aislelys", "Aislelys", "#D9BC8C", 0],
+    ["sgcards", "SG Cards", "#FF6B63", 0],
+    ["deqly", "Deqly", "#FF7A7A", 0],
     ["logos", "Logo design", "#D4D4D8", 0],
   ].filter(([id]) => document.getElementById(id));
   if (!PROJECTS.length) return;
