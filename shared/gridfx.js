@@ -31,6 +31,21 @@
     return `${m(r)},${m(g)},${m(b)}`;
   }
 
+  // How visible the grid is at a screen point (0-1): the same soft patches as the
+  // grid's own mask (#grid i in aura.css: repeating every 1440 px, sliding with the
+  // page). The streaks and stars fade with it, so light never travels where no grid
+  // line shows (owner's request: the streaks should move along the grid).
+  function vis(x, y) {
+    const vmax = Math.max(W, H), gy = y + (scrollY % 1440); // position on the grid's layer
+    let v = 1;
+    for (const [cx, cy, r] of [[.2 * W, 360, .26 * vmax], [.78 * W, 1080, .24 * vmax]]) {
+      const k = Math.round((gy - cy) / 1440), d = Math.hypot(x - cx, gy - (cy + k * 1440));
+      v *= Math.min(1, d / r);
+    }
+    // and the grid's corner fade (ellipse 85% x 80%, solid to 45%)
+    const ex = (x - W / 2) / (W * .85), ey = (y - H / 2) / (H * .8), e = Math.hypot(ex, ey);
+    return v * Math.min(1, Math.max(0, (1 - e) / .55));
+  }
   const beams = [], stars = [];
   const MAX_BEAMS = innerWidth < 700 ? 6 : 9, MAX_STARS = innerWidth < 700 ? 6 : 10;
   const rnd = (a, b) => a + Math.random() * (b - a);
@@ -71,6 +86,7 @@
     // where along the line it starts: anywhere in view (on a grid point)
     const along = vertical ? Math.round((scrollY + rnd(H * .15, H * .95)) / step) * step + .5 : Math.round(rnd(0, W) / step) * step + .5;
     const x = vertical ? at : along, y = vertical ? along : at;
+    if (vis(x, y - scrollY) < .5) return; // the grid is faded here: no streak
     const sx = vertical ? 0 : (Math.random() < .5 ? -1 : 1), sy = vertical ? (dir > 0 ? -1 : 1) : 0;
     beams.push({ x, y, dx: sx * tile * cells, dy: sy * tile * cells, t0: performance.now(), dur: 650 * cells + rnd(0, 400), col: tint(), landed: !major, k: major ? 1 : .7 });
     // a crosshair it leaves from glints too (only the major lines have them)
@@ -93,7 +109,7 @@
       const len = Math.hypot(b.dx, b.dy), tl = Math.min(len * e, tile * 1.6); // long streaks (owner's request)
       const ux = b.dx / len, uy = b.dy / len;
       const tx = hx - ux * tl, ty = hy - uy * tl;
-      const fade = Math.sin(Math.PI * Math.min(1, p * 1.05)); // in and out
+      const fade = Math.sin(Math.PI * Math.min(1, p * 1.05)) * vis(hx, hy); // in and out, and only where the grid shows
       const gr = ctx.createLinearGradient(tx, ty, hx, hy);
       gr.addColorStop(0, `rgba(${b.col},0)`);
       gr.addColorStop(.7, `rgba(${b.col},${(.55 * fade).toFixed(3)})`);
@@ -116,7 +132,7 @@
       const s = stars[k], p = (now - s.t0) / s.dur;
       if (p < 0) continue;
       if (p >= 1) { stars.splice(k, 1); continue; }
-      const a = Math.pow(Math.sin(Math.PI * p), 2), x = s.x, y = s.y + oy;
+      const x = s.x, y = s.y + oy, a = Math.pow(Math.sin(Math.PI * p), 2) * vis(x, y);
       if (y < -20 || y > H + 20) continue;
       const g = ctx.createRadialGradient(x, y, 0, x, y, 14 * s.size);
       g.addColorStop(0, `rgba(255,255,255,${(.12 * a).toFixed(3)})`); // a soft glint, less shine (owner's request)
