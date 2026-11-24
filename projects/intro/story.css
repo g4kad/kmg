@@ -38,3 +38,7 @@
   #intro .projects button { font-size: 13px; padding: 7px 13px 7px 9px; }
 }
 @media (prefers-reduced-motion: reduce) { #intro .rise { animation: none; } #intro .hint i::after { animation: none; } }
+
+/* "brand to screen" in Instrument Serif italic (owner's request), white like the rest;
+   a serif italic reads smaller, so it is set a touch larger and tighter */
+#intro h1 em { font-family: "Instrument Serif", Georgia, "Times New Roman", serif; font-style: italic; font-weight: 400; font-size: 1.14em; letter-spacing: -.01em; line-height: .9; color: inherit; }
